@@ -1,32 +1,23 @@
-import React, { useState } from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import './scss/styles.scss';
 
-function App() {
+import { CardList } from './components/card-list/card-list';
+
+const App = () => {
 	const [state, setState] = useState({
-		monsters: [
-			{
-				name: 'Frankensteins',
-				id: 'asc1'
-			},
-			{
-				name: 'Dracula',
-				id: 'asr2'
-			},
-			{
-				name: 'Zombie',
-				id: 'as1w'
-			}
-		]
+		monsters: []
+	});
+
+	useEffect(() => {
+		fetch('https://jsonplaceholder.typicode.com/users')
+			.then(res => res.json())
+			.then(user => setState({ monsters: user }))
 	})
 
 	return (
 		<div className='App'>
-			{
-				state.monsters.map(monster => (
-					<h1 key={ monster.id }>{ monster.name }</h1>
-				))
-			}
+			<CardList monsters={state.monsters} />
 		</div>
 	);
 }
